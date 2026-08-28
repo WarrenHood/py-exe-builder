@@ -104,6 +104,9 @@ runpy.run_module(%r, run_name='__main__', alter_sys=True)
                     except:
                         pass
 
+    def _get_version_info(self) -> Namespace:
+        return self.exe_builder.version_info._as_namespace()
+
     def get_options(self, destdir):
         options = Namespace(
             unbuffered=self.unbuffered,
@@ -128,5 +131,6 @@ runpy.run_module(%r, run_name='__main__', alter_sys=True)
             service=[],
             com_servers=[],
             destdir=destdir,
+            version_info=self._get_version_info(),
         )
         return options
