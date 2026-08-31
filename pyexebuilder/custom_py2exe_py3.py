@@ -58,11 +58,13 @@ class custom_py2exe(build_exe):
 
     def build_exe(self):
         try:
-            args = {}
+            args: dict = {}
             if self.exe_builder.needs_admin:
                 args['other_resources'] = [(RT_MANIFEST, 1, runAsAdminManifest)]
             if self.exe_builder.icon:
                 args['icon_resources'] = [(1, self.exe_builder.icon)]
+            if self.exe_builder.version_info:
+                args['version_info'] = self._get_version_info() 
             if self.exe_builder.script or self.exe_builder.module_name:
                 if self.exe_builder.module_name:
                     src = r"""
@@ -131,6 +133,5 @@ runpy.run_module(%r, run_name='__main__', alter_sys=True)
             service=[],
             com_servers=[],
             destdir=destdir,
-            version_info=self._get_version_info(),
         )
         return options
